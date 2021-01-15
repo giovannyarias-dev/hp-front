@@ -1,15 +1,12 @@
+import React from 'react';
+import styled from 'styled-components';
 import { Tooltip } from 'antd';
 import { CloseCircleOutlined } from '@ant-design/icons';
-import React, { useContext } from 'react';
-import styled from 'styled-components';
-import happyproject from '../assets/images/happyproject.svg';
-import { useGoogleLogout } from 'react-google-login';
 import { useHistory } from 'react-router-dom';
-import { routesTypes } from '../types/routesTypes';
-import { AuthContext } from '../context/AuthContext';
-import { types } from '../types/types';
-
-const clientId = '789872827402-2733p91rfk5r830l2v97bbjjpclbg9qb.apps.googleusercontent.com';
+import happyproject from '../assets/images/happyproject.svg';
+import { eRoutes } from '../enums/eRoutes';
+import { useDispatch } from 'react-redux';
+import { logout } from '../actions/auth';
 
 const Logo = styled.img`
   height: 25px;
@@ -37,24 +34,12 @@ const ToolsBox = styled.div`
 export const Header = (): JSX.Element => {
 
   const history = useHistory();
-  const { dispatch } = useContext(AuthContext);
+  const dispatch = useDispatch();
 
-  const onLogoutSuccess = () => {
-    dispatch({
-      type: types.logout
-    });
-    history.push(routesTypes.login);
+  const handleSignOut = () => {
+    dispatch( logout() );
+    history.push( eRoutes.LOGIN );
   };
-
-  const onFailure = () => {
-    console.log('Handle filure cases');
-  };
-
-  const { signOut } = useGoogleLogout({
-    clientId,
-    onLogoutSuccess,
-    onFailure
-  });
 
   return (
     <HeaderBox>
@@ -62,7 +47,7 @@ export const Header = (): JSX.Element => {
         <Logo src={ happyproject } alt='Logo happyproject' />
         <ToolsBox>
           <Tooltip title="Cerrar sesión">
-            <CloseCircleOutlined onClick={ signOut } />
+            <CloseCircleOutlined onClick={ handleSignOut } />
           </Tooltip>
         </ToolsBox>
       </HeaderOptions>  

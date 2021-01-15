@@ -1,17 +1,17 @@
 import React, { useContext } from 'react';
 import { SocketContext } from '../context/SocketContext';
-import { socketTypes } from '../types/socketTypes';
+import { eSocketEvents } from '../enums/eSocketEvents';
 
 export const Admin = (): JSX.Element => {
 
   const { socket } = useContext(SocketContext);
 
   const cleanEffort = () => {
-    socket.emit( socketTypes.emit.cleanEffort );
+    socket.emit( eSocketEvents.CLEAN_EFFORT );
   };
 
   const revealCards = () => {
-    socket.emit( socketTypes.emit.revealCards );
+    socket.emit( eSocketEvents.REVEAL_CARDS );
   };
 
   return (

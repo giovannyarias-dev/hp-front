@@ -2,7 +2,7 @@ import React from 'react';
 import { Avatar } from 'antd';
 import styled from 'styled-components';
 import Icon from './Icon';
-import iUser from '../interfaces/iUser';
+import { iUser } from '../interfaces/iUser';
 
 const AvatarBox = styled.div`
   padding: 10px;
@@ -32,13 +32,13 @@ type UserAvatarProps = {
 
 export const UserAvatar = ({ user, showEffort }: UserAvatarProps): JSX.Element => {
 
-  const imageUser = require(`../assets/users/${ user._image }`).default;
+  const imageUser = require(`../assets/users/${ user.image }`).default;
 
   const getOverflow = () => {
     let overflow: JSX.Element | string = '';
-    if ( user._effort ) {
+    if ( user.effort ) {
       if ( showEffort ) {
-        overflow = <IconCheckBox> { user._effort } </IconCheckBox>;
+        overflow = <IconCheckBox> { user.effort } </IconCheckBox>;
       } else {
         overflow = <IconCheckBox>
           <Icon svg="check" classes="svg-icon icon-m"/>
@@ -52,7 +52,7 @@ export const UserAvatar = ({ user, showEffort }: UserAvatarProps): JSX.Element =
     <AvatarBox>
       <Avatar size={ 80 } src={ imageUser } />
       { getOverflow() }
-      { user._name.split(' ')[0] }
+      { user.name?.split(' ')[0] }
     </AvatarBox>
   );
 };

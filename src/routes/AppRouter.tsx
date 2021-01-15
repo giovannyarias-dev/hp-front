@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import {
   BrowserRouter as Router,
   Route,
@@ -10,26 +10,27 @@ import { Login } from '../pages/Login';
 import { PlanningPoker } from '../pages/PlanningPoker';
 import { Admin } from '../pages/Admin';
 import { Header } from '../components/Header';
-import { routesTypes } from '../types/routesTypes';
-import { AuthContext } from '../context/AuthContext';
 import { PrivateRoute } from './PrivateRoute';
+import { eRoutes } from '../enums/eRoutes';
+import { useSelector } from 'react-redux';
+import { iState } from '../interfaces/iState';
 
 const { Content } = Layout;
 
 export const AppRouter = () => {
 
-  const { user } = useContext(AuthContext);
+  const { auth } = useSelector( ( state: iState ) => state );
 
   return (
     <Router>
       <div>
-        { user._logged && <Header /> }
+        { auth.logged && <Header /> }
         <Layout style={{ height: '100vh' }}>
           <Content className="site-layout-container">
             <Switch>
-              <PrivateRoute path={ routesTypes.planning } component={ PlanningPoker } isAuthenticated={ user._logged } />
-              <PrivateRoute path={ routesTypes.admin } component={ Admin } isAuthenticated={ user._logged } />
-              <Route exact path={ routesTypes.login } component={ Login } />
+              <PrivateRoute path={ eRoutes.PLANNING } component={ PlanningPoker } isAuthenticated={ auth.logged } />
+              <PrivateRoute path={ eRoutes.ADMIN } component={ Admin } isAuthenticated={ auth.logged } />
+              <Route exact path={ eRoutes.LOGIN } component={ Login } />
             </Switch>
           </Content>
         </Layout>

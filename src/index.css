@@ -5,6 +5,10 @@ body {
   background-color: #eff2f5;
 }
 
+.ant-btn {
+  border-radius: 8px;
+}
+
 .container {
   width: 1140px;
 }

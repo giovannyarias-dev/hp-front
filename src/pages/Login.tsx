@@ -1,27 +1,24 @@
-import React, { useContext } from 'react';
-import { Button } from 'antd';
-import { useHistory } from 'react-router-dom';
-//import { useGoogleLogin } from 'react-google-login';
-import { GoogleOutlined } from '@ant-design/icons';
-import { SocketContext } from '../context/SocketContext';
+import React, { useContext, useEffect } from 'react';
 import styled from 'styled-components';
+import { Button } from 'antd';
+import { GoogleOutlined } from '@ant-design/icons';
+import { useDispatch, useSelector } from 'react-redux';
 
+import { startGoogleLogin } from '../actions/auth';
+import { useHistory } from 'react-router-dom';
+import { SocketContext } from '../context/SocketContext';
+import { eRoutes } from '../enums/eRoutes';
+import { eSocketEvents } from '../enums/eSocketEvents';
+import { iState } from '../interfaces/iState';
 import happyproject from '../assets/images/happyproject.svg';
 import happyprojectFace from '../assets/images/happyproject-face.svg';
-import { AuthContext } from '../context/AuthContext';
-import { types } from '../types/types';
-import iUser from '../interfaces/iUser';
-import { socketTypes } from '../types/socketTypes';
-import { routesTypes } from '../types/routesTypes';
 
-//const clientId = '789872827402-2733p91rfk5r830l2v97bbjjpclbg9qb.apps.googleusercontent.com';
-
-const Happyproject = styled.div`
+const LogoHappyproject = styled.div`
   width: 250px;
   margin: 20px 0;
 `;
 
-const HappyprojectFace = styled.div`
+const LogoHappyprojectFace = styled.div`
   width: 100px;
 `;
 
@@ -37,53 +34,31 @@ const LoginBox = styled.div`
 
 export const Login = (): JSX.Element => {
 
+  const dispatch = useDispatch();
+  const { auth } = useSelector( ( state: iState ) => state );
   const { socket } = useContext( SocketContext );
-  const { dispatch } = useContext( AuthContext );
   const history = useHistory();
 
-  // const onSuccess = ( res: any ) => {
-  //   socket.emit(socketTypes.emit.login, { email: res.profileObj.email, name: res.profileObj.name});
-  //   localStorage.setItem('email', res.profileObj.email);
-  //   //localStorage.setItem('imageUrl', res.profileObj.imageUrl);
-  //   history.push(routesTypes.planning);
-  // };
-
-  // const onFailure = ( res: any ) => {
-  //   console.log('Login failed: res', res);
-  // };
-
-  // const { signIn } = useGoogleLogin({
-  //   onSuccess,
-  //   onFailure,
-  //   clientId,
-  //   isSignedIn: true,
-  //   accessType: 'offline'
-  // });
-
-  const signInTest = () =>{
-    const user:iUser = {
-      _email: 'cesarg.arias@avaldigitallabs.com',
-      _name: 'Giovanny',
-      _image: ''
-    };
-    dispatch({
-      type: types.login,
-      payload: user
-    });
-    socket.emit(socketTypes.emit.login, user);
-    history.push(routesTypes.planning);
+  const handleGoogleSignIn = () => {
+    dispatch( startGoogleLogin() );
   };
+
+  useEffect(() => {
+    if( auth.logged ) {
+      socket.emit( eSocketEvents.LOGIN, auth.user );
+      history.push( eRoutes.PLANNING );
+    }
+  }, [auth]);
 
   return (
     <LoginBox>
-      <HappyprojectFace>
-        <img src={ happyprojectFace } alt='happyproject' width='100%' />
-      </HappyprojectFace>
-      <Happyproject>
-        <img src={ happyproject } alt='happyproject' width='100%'/>
-      </Happyproject>
-      {/* <Button onClick={ signIn }> */}
-      <Button onClick={ signInTest }>
+      <LogoHappyprojectFace>
+        <img src={ happyprojectFace } alt='happyproject' />
+      </LogoHappyprojectFace>
+      <LogoHappyproject>
+        <img src={ happyproject } alt='happyproject' />
+      </LogoHappyproject>
+      <Button onClick={ handleGoogleSignIn }>
         <GoogleOutlined />
         Sign in with Google
       </Button>

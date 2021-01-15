@@ -1,5 +1,4 @@
-/* eslint-disable semi */
-export default interface iActionReducer {
+export interface iActionReducer {
   type: string;
   payload: object;
 }

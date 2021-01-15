@@ -1,7 +1,7 @@
 import React from 'react';
 import { Redirect, Route } from 'react-router-dom';
-import { routesTypes } from '../types/routesTypes';
 import PropTypes from 'prop-types';
+import { eRoutes } from '../enums/eRoutes';
 
 export const PrivateRoute = ({
   isAuthenticated,
@@ -13,7 +13,7 @@ export const PrivateRoute = ({
       component={ (props: any) => (
         isAuthenticated
           ? <Component { ...props } />
-          : <Redirect to={ routesTypes.login } />
+          : <Redirect to={ eRoutes.LOGIN } />
       )}
     />
   );

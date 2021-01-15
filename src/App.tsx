@@ -1,16 +1,17 @@
 import React from 'react';
-import { AuthProvider } from './context/AuthContext';
-import { SocketProvider } from './context/SocketContext';
+import { Provider } from 'react-redux';
 
+import { SocketProvider } from './context/SocketContext';
 import { AppRouter } from './routes/AppRouter';
+import { store } from './store/store';
 
 function App(): JSX.Element {
   return (
-    <AuthProvider>
+    <Provider store={ store }>
       <SocketProvider>
         <AppRouter />
       </SocketProvider>
-    </AuthProvider>
+    </Provider>
   );
 }
 

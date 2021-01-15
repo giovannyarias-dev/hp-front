@@ -1,7 +1,7 @@
 import React from 'react';
 import { PlanningPokerResultCards } from './PlanningPokerResultCards';
 
-import iUser from '../interfaces/iUser';
+import { iUser } from '../interfaces/iUser';
 
 type PlanningPokerResultProps = {
   users: iUser[];

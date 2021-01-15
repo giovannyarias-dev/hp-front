@@ -1,7 +1,7 @@
 import { Col, Row, Avatar } from 'antd';
 import React from 'react';
 import styled from 'styled-components';
-import iUser from '../interfaces/iUser';
+import { iUser } from '../interfaces/iUser';
 
 import { PokerCard } from './PokerCard';
 
@@ -40,17 +40,17 @@ export const PlanningPokerResultCards = ({ users }: Props): JSX.Element => {
 
   const effortSelected:Array<string> = [];
   users.forEach(user => {
-    if( user._effort && !effortSelected.some(effort => effort === user._effort) ) {
-      effortSelected.push(user._effort);
+    if( user.effort && !effortSelected.some(effort => effort === user.effort) ) {
+      effortSelected.push(user.effort);
     } 
   });
 
   const getAvatarGroup = (effort: string, users: iUser[]) => {
 
     const avatarUsers = users.map( (user) => {
-      if( user._effort === effort ) {
-        const imageUser = require(`../assets/users/${ user._image }`).default;
-        return <Avatar size={30} src={ imageUser } key={ `avatar${user._id}` }/>;
+      if( user.effort === effort ) {
+        const imageUser = require(`../assets/users/${ user.image }`).default;
+        return <Avatar size={30} src={ imageUser } key={ `avatar${user.id}` }/>;
       }
       return null;
     });
