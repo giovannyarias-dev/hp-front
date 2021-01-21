@@ -1,13 +1,10 @@
 import { Col, Row, Avatar } from 'antd';
 import React from 'react';
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
-import { iUser } from '../interfaces/iUser';
+import { iState } from '../interfaces/iState';
 
 import { PokerCard } from './PokerCard';
-
-type Props = {
-  users: iUser[]
-};
 
 const cardList = [
   { number: '1', effort: '0' },
@@ -36,21 +33,22 @@ const RowFlex = styled(Row)`
   justify-content: center;
 `;
 
-export const PlanningPokerResultCards = ({ users }: Props): JSX.Element => {
+export const PlanningPokerResultCards = (): JSX.Element => {
+
+  const { planningPoker: { users } } = useSelector( (state: iState) => state );
 
   const effortSelected:Array<string> = [];
-  users.forEach(user => {
+  users?.forEach(user => {
     if( user.effort && !effortSelected.some(effort => effort === user.effort) ) {
       effortSelected.push(user.effort);
     } 
   });
 
-  const getAvatarGroup = (effort: string, users: iUser[]) => {
+  const getAvatarGroup = (effort: string) => {
 
-    const avatarUsers = users.map( (user) => {
+    const avatarUsers = users?.map( (user) => {
       if( user.effort === effort ) {
-        const imageUser = require(`../assets/users/${ user.image }`).default;
-        return <Avatar size={30} src={ imageUser } key={ `avatar${user.id}` }/>;
+        return <Avatar size={30} src={ user.image } key={ `avatar${user.id}` }/>;
       }
       return null;
     });
@@ -69,7 +67,7 @@ export const PlanningPokerResultCards = ({ users }: Props): JSX.Element => {
         return <Col key={ `cardr${ cardNumber }` } > 
           <PokerCardBox>
             <PokerCard cardNumber={ cardNumber } active={ false } />
-            { getAvatarGroup(effort, users) }
+            { getAvatarGroup( effort ) }
           </PokerCardBox>
         </Col>;
       }) }

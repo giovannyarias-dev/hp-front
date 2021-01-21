@@ -8,7 +8,6 @@ import { Layout } from 'antd';
 
 import { Login } from '../pages/Login';
 import { PlanningPoker } from '../pages/PlanningPoker';
-import { Admin } from '../pages/Admin';
 import { Header } from '../components/Header';
 import { PrivateRoute } from './PrivateRoute';
 import { eRoutes } from '../enums/eRoutes';
@@ -29,7 +28,6 @@ export const AppRouter = () => {
           <Content className="site-layout-container">
             <Switch>
               <PrivateRoute path={ eRoutes.PLANNING } component={ PlanningPoker } isAuthenticated={ auth.logged } />
-              <PrivateRoute path={ eRoutes.ADMIN } component={ Admin } isAuthenticated={ auth.logged } />
               <Route exact path={ eRoutes.LOGIN } component={ Login } />
             </Switch>
           </Content>

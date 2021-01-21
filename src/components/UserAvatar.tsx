@@ -32,8 +32,6 @@ type UserAvatarProps = {
 
 export const UserAvatar = ({ user, showEffort }: UserAvatarProps): JSX.Element => {
 
-  const imageUser = require(`../assets/users/${ user.image }`).default;
-
   const getOverflow = () => {
     let overflow: JSX.Element | string = '';
     if ( user.effort ) {
@@ -50,7 +48,7 @@ export const UserAvatar = ({ user, showEffort }: UserAvatarProps): JSX.Element =
   
   return (
     <AvatarBox>
-      <Avatar size={ 80 } src={ imageUser } />
+      <Avatar size={ 80 } src={ user.image } />
       { getOverflow() }
       { user.name?.split(' ')[0] }
     </AvatarBox>

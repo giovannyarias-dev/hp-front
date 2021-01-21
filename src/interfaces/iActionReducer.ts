@@ -1,4 +1,4 @@
 export interface iActionReducer {
   type: string;
-  payload: object;
+  payload: any;
 }

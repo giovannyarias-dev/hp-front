@@ -2,6 +2,6 @@ import { iUser } from './iUser';
 
 export interface iPlanningPoker {
   users?: iUser[],
-  showEffort?: boolean,
+  showEffort: boolean,
   effort?: string,
 }

@@ -1,13 +1,13 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Col, Row } from 'antd';
 import styled from 'styled-components';
 
 import { PokerCard } from './PokerCard';
-
-type PokerCardGridProps = {
-  effort: string,
-  onClickCard: Function;
-};
+import { useDispatch, useSelector } from 'react-redux';
+import { iState } from '../interfaces/iState';
+import { setEffort } from '../actions/planningPoker';
+import { SocketContext } from '../context/SocketContext';
+import { eSocketEvents } from '../enums/eSocketEvents';
 
 type Card = {
   number: string,
@@ -41,13 +41,23 @@ const cardList = [
   //{ number: '13', effort: 'Coffee' },
 ];
 
-export const PokerCardGrid = ({ effort, onClickCard }: PokerCardGridProps): JSX.Element => {
+export const PokerCardGrid = (): JSX.Element => {
+
+  const dispatch = useDispatch();
+  const { auth, planningPoker } = useSelector( (state: iState) => state );
+  const { socket } = useContext( SocketContext );
+
+  const selectCard = ( effort: string ) => {
+    dispatch( setEffort( effort ) );
+    socket.emit( eSocketEvents.SET_EFFORT, { idUser: auth.user?.id, effort } );
+  };
+
   return (
     <RowFlex>
       { cardList.map( ( card: Card ) => {
         return <Col className='poker-card-box' key={ `card${ card.number }` } >
-          <PokerCardBox onClick={ () => { onClickCard( card.effort ) }} key={ `card2${ card.number }` }>
-            <PokerCard cardNumber={ card.number } active={ effort === card.effort ? true : false} />
+          <PokerCardBox onClick={ () => { selectCard( card.effort ) }} key={ `card2${ card.number }` }>
+            <PokerCard cardNumber={ card.number } active={ planningPoker?.effort === card.effort ? true : false} />
           </PokerCardBox>
         </Col>;
       })}

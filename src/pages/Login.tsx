@@ -1,14 +1,11 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { Button } from 'antd';
 import { GoogleOutlined } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'react-redux';
-
 import { startGoogleLogin } from '../actions/auth';
 import { useHistory } from 'react-router-dom';
-import { SocketContext } from '../context/SocketContext';
 import { eRoutes } from '../enums/eRoutes';
-import { eSocketEvents } from '../enums/eSocketEvents';
 import { iState } from '../interfaces/iState';
 import happyproject from '../assets/images/happyproject.svg';
 import happyprojectFace from '../assets/images/happyproject-face.svg';
@@ -36,7 +33,6 @@ export const Login = (): JSX.Element => {
 
   const dispatch = useDispatch();
   const { auth } = useSelector( ( state: iState ) => state );
-  const { socket } = useContext( SocketContext );
   const history = useHistory();
 
   const handleGoogleSignIn = () => {
@@ -45,10 +41,9 @@ export const Login = (): JSX.Element => {
 
   useEffect(() => {
     if( auth.logged ) {
-      socket.emit( eSocketEvents.LOGIN, auth.user );
-      history.push( eRoutes.PLANNING );
+      history.replace( eRoutes.PLANNING );
     }
-  }, [auth]);
+  }, [ auth ]);
 
   return (
     <LoginBox>

@@ -1,6 +1,7 @@
 export enum eSocketEvents {
   LOGIN = 'login',
-  SELECT_USER = 'select-user',
+  SET_USER = 'set-user',
+  ADD_USER_TO_PLANNING = 'add-user-to-planning',
   SET_EFFORT = 'set-effort',
   CLEAN_EFFORT = 'clean-effort',
   REVEAL_CARDS = 'reveal-cards',

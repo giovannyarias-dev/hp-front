@@ -10,7 +10,8 @@ export const authReducer = ( state = { logged: false }, action: iActionReducer )
   case eTypes.LOGIN:
     return {
       ...state,
-      user: action.payload as iUser,
+      user: action.payload.user as iUser,
+      token: action.payload.token,
       logged: true
     };
     break;
@@ -20,7 +21,7 @@ export const authReducer = ( state = { logged: false }, action: iActionReducer )
       logged: false
     };
     break;
-
+    
   default:
     return state;
   }
