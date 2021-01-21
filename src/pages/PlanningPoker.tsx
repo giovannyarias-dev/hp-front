@@ -44,7 +44,8 @@ export const PlanningPoker = (): JSX.Element => {
   useEffect(() => {
     if ( !planningPoker.users?.some( user => user.id === auth.user?.id ) ) {
 
-      socket.emit( eSocketEvents.ADD_USER_TO_PLANNING, auth.user );
+      dispatch( getTeamsByUser() );
+      socket.emit( eSocketEvents.ADD_USER_PLANNING, { user:auth.user, isTeamUser: true } );
       socket.on( eSocketEvents.CURRENT_USERS, ( users: iUser[] ) => {
         dispatch( setUsersInPLanning( users ));  
       });
@@ -52,8 +53,6 @@ export const PlanningPoker = (): JSX.Element => {
         dispatch( setShowEffort( data.reveal ) );
         dispatch( setEffort( '' ) );
       });
-      
-      dispatch( getTeamsByUser() );
     }
   }, []);
 
@@ -73,7 +72,7 @@ export const PlanningPoker = (): JSX.Element => {
     <PageBox>
       { <AvatarListBox>
         {
-          planningPoker.users?.filter( (user: iUser) => user.role === 'team' ).map( (user: iUser) => {
+          planningPoker.users?.filter( (user: iUser) => user.isTeamUser ).map( (user: iUser) => {
             return <UserAvatar key={ `avatar${user.id}` } user={ user } showEffort={ planningPoker.showEffort } />;
           })}
       </AvatarListBox> }

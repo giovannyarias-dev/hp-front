@@ -5,11 +5,10 @@ export interface iUser {
   uid?: string;
   name: string | null | undefined;
   image?: string;
-  invited?: boolean;
-  role?: string;
   email: string | null | undefined;
   effort?: string | null;
   logged?: boolean;
+  isTeamUser?: boolean;
 
   selectedTeam?: number;
   teams?: iTeamUser[];

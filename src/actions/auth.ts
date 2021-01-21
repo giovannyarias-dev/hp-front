@@ -24,9 +24,12 @@ export const startGoogleLogin = () => {
   };
 };
 
-export const logout = () => ({
-  type: eTypes.LOGOUT
-});
+export const logout = () => {
+  localStorage.removeItem('token');
+  return {
+    type: eTypes.LOGOUT
+  };
+};
 
 export const login = ( user: iUser, token: string ) => ({
   type: eTypes.LOGIN,
